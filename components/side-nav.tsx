@@ -8,7 +8,10 @@ const navItems = [
   { label: "Twitter", href: "https://x.com/hnx246" },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/harsh-nagarkar/" },
   { label: "GitHub", href: "https://github.com/HarshNagarkar17" },
-  { label: "CV", href: "#" },
+  {
+    label: "CV",
+    href: "https://drive.google.com/file/d/1U_TZiVt7nWw9THeXv9SOshFQJfsUwNtE/view?usp=sharing",
+  },
 ];
 
 const SideNav = () => {
@@ -23,6 +26,7 @@ const SideNav = () => {
             <a
               key={index}
               href={item.href}
+              target="__blank"
               className="text-gray-400 hover:text-[#37DE96] text-xs transition-all duration-200 hover-glow writing-mode-vertical font-light"
               style={{ writingMode: "vertical-rl", textOrientation: "mixed" }}
             >
@@ -53,6 +57,7 @@ const SideNav = () => {
                   <a
                     key={index}
                     href={item.href}
+                    target="__blank"
                     className="block text-gray-400 hover:text-[#37DE96] text-lg transition-all duration-200 hover-glow font-light"
                     onClick={() => setIsOpen(false)}
                   >

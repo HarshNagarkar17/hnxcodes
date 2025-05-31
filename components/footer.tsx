@@ -1,3 +1,5 @@
+"use client";
+
 const Footer = () => {
   const currentDate = new Date().toLocaleDateString("en-US", {
     year: "numeric",
