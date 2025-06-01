@@ -3,9 +3,10 @@ import type { Config } from "tailwindcss";
 export default {
   darkMode: ["class"],
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
   ],
   prefix: "",
   theme: {
@@ -54,15 +55,25 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Custom neon colors
+        batman: {
+          black: "#0a0a0a",
+          "dark-gray": "#1a1a1a",
+          "medium-gray": "#2a2a2a",
+          "light-gray": "#3a3a3a",
+          red: "#8b1538",
+          "red-dark": "#6b1028",
+          "red-light": "#a01d45",
+          gold: "#d4af37",
+        },
         neon: {
-          green: "#00ff88",
-          yellow: "#ffff00",
-          blue: "#00d4ff",
+          green: "#00ff88", // Keep for some accent elements
+          yellow: "#d4af37", // Batman gold
+          blue: "#4a5568", // Muted blue-gray
+          red: "#8b1538", // Batman red
         },
         grid: {
-          line: "rgba(255, 255, 255, 0.05)",
-          dot: "rgba(0, 255, 136, 0.1)",
+          line: "rgba(255, 255, 255, 0.02)",
+          dot: "rgba(139, 21, 56, 0.1)",
         },
       },
       borderRadius: {
@@ -89,10 +100,10 @@ export default {
         },
         glow: {
           "0%, 100%": {
-            boxShadow: "0 0 5px #00ff88, 0 0 10px #00ff88, 0 0 15px #00ff88",
+            boxShadow: "0 0 5px #8b1538, 0 0 10px #8b1538, 0 0 15px #8b1538",
           },
           "50%": {
-            boxShadow: "0 0 10px #00ff88, 0 0 20px #00ff88, 0 0 30px #00ff88",
+            boxShadow: "0 0 10px #8b1538, 0 0 20px #8b1538, 0 0 30px #8b1538",
           },
         },
         "fade-in": {
@@ -114,8 +125,8 @@ export default {
       },
       backgroundImage: {
         "grid-pattern": `
-					linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-					linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)
+					linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px),
+					linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px)
 				`,
       },
       backgroundSize: {
@@ -123,6 +134,5 @@ export default {
       },
     },
   },
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;

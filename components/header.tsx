@@ -1,54 +1,42 @@
 const Header = () => {
   return (
-    <header className="space-y-6 animate-fade-in">
-      <div className="flex items-center gap-2">
+    <header className="space-y-6 animate-fade-in relative">
+      <div className="flex items-center gap-3 relative z-10">
         <div className="neon-dot"></div>
-        <h1 className="text-xl font-medium text-white tracking-tight">
+        <h1 className="text-xl font-medium text-white tracking-tight gotham-text">
           Harsh Nagarkar
         </h1>
+        <div className="text-batman-red/20 text-xs ml-1">[ ONLINE ]</div>
       </div>
 
-      <p className="text-gray-300 font-light leading-relaxed">
-        Full-stack developer, learner, and explorer of ideas.
-      </p>
+      <div className="space-y-4 relative z-10">
+        <p className="text-gray-300 font-light leading-relaxed">
+          Full-stack developer, designer, and{" "}
+          <span className="batman-highlight neon-text">explorer</span> of ideas.
+        </p>
 
-      <p className="text-gray-400 leading-relaxed max-w-xl font-light">
-        Building robust applications with attention to detail, while
-        continuously learning and refining both frontend and backend skills.
-      </p>
+        <div className="dark-card p-5 rounded-lg shadow-realm">
+          <p className="text-gray-400 leading-relaxed max-w-xl font-light">
+            Building robust applications with attention to detail, while
+            continuously learning and refining both frontend and backend skills
+          </p>
+        </div>
 
-      <p className="text-gray-400 font-light">
-        I&apos;m a builder{" "}
-        <span className="yellow-highlight">chasing the impossible</span>.
-      </p>
+        <p className="text-gray-400 font-light">
+          I&apos;m a builder{" "}
+          <span className="batman-highlight">chasing the impossible</span>
+        </p>
+      </div>
 
-      <div className="flex gap-3 pt-2">
-        {/* <Button
-          variant="outline"
-          size="sm"
-          className="hover-glow border-gray-700 hover:border-neon-green transition-all duration-200 text-xs font-light"
-        >
-          Why into Software?
-          <ArrowRight className="ml-1 h-3 w-3" />
-        </Button> */}
-
-        {/* <Button
-          variant="outline"
-          size="sm"
-          className="hover-glow border-gray-700 hover:border-neon-green transition-all duration-200 text-xs font-light"
-        >
-          Sign visitor&apos;s log
-        </Button> */}
-
+      <div className="flex gap-3 pt-2 relative z-10">
         <a
           href="mailto:harshvn871@gmail.com"
-          className="inline-flex items-center hover:text-black hover:bg-[#FFFE00] justify-center hover-glow border border-gray-700 hover:border-neon-green transition-all duration-200 text-xs font-light px-3 py-1 rounded-sm"
+          className="inline-flex items-center justify-center rounded-md border border-batman-medium-gray bg-transparent px-3 py-2 text-xs font-light gotham-text hover:border-batman-red hover:bg-batman-red hover:text-white hover:shadow-lg hover:shadow-batman-red/30 transition-all duration-300"
         >
-          Email me
+          Signal me
         </a>
       </div>
     </header>
   );
 };
-
 export default Header;

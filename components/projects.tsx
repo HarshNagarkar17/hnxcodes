@@ -1,5 +1,4 @@
 import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 
 interface Project {
   title: string;
@@ -32,47 +31,56 @@ const projectsData: Project[] = [
 
 const Projects = () => {
   return (
-    <section className="space-y-4 animate-fade-in">
-      <h2 className="text-sm font-medium text-gray-300 tracking-tight">
-        Projects
-      </h2>
+    <section className="space-y-4 animate-fade-in relative">
+      <div className="flex items-center gap-2 relative z-10">
+        <h2 className="text-sm font-medium text-gray-300 tracking-tight gotham-text">
+          Projects
+        </h2>
+        <div className="text-batman-red/40 text-xs">◆</div>
+        <div className="text-batman-red/20 text-xs ml-2">[ CLASSIFIED ]</div>
+      </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2 relative z-10">
         {projectsData.map((project, index) => (
-          <div key={index} className="space-y-3">
-            <h3 className="text-white font-light hover-glow cursor-pointer text-sm">
-              {project.title}
-            </h3>
+          <div
+            key={index}
+            className="dark-card p-5 rounded-lg space-y-3 hover:border-batman-red/40 transition-all duration-500 group shadow-realm batman-border"
+          >
+            <div className="flex items-center gap-2">
+              <h3 className="text-white font-light hover-glow cursor-pointer text-sm group-hover:text-batman-red transition-all duration-300 neon-text">
+                {project.title}
+              </h3>
+            </div>
 
             <p className="text-gray-400 leading-relaxed text-xs font-light">
               {project.description}
             </p>
 
-            <div className="flex gap-2">
+            <div className="flex gap-2 pt-3">
               {project.liveUrl && (
-                <Link
+                <a
                   href={project.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center text-xs border border-neon-green text-neon-green hover:bg-neon-green hover:text-black transition-all duration-200 font-light h-6 px-2 rounded-sm"
+                  className="inline-flex items-center justify-center rounded-md border border-batman-red text-batman-red text-xs font-light h-6 px-3 transition-all duration-300 hover:bg-batman-red hover:text-white hover:shadow-lg hover:shadow-batman-red/30 signal-light"
                 >
-                  Live <ArrowRight className="ml-1 h-2 w-2" />
-                </Link>
+                  Access <ArrowRight className="ml-1 h-4 w-4" />
+                </a>
               )}
 
               {project.codeUrl && (
-                <Link
+                <a
                   href={project.codeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center text-xs border border-neon-green text-neon-green hover:bg-neon-green hover:text-black transition-all duration-200 font-light h-6 px-2 rounded-sm"
+                  className="inline-flex items-center justify-center rounded-md border border-batman-red text-batman-red text-xs font-light h-6 px-3 transition-all duration-300 hover:bg-batman-red hover:text-white hover:shadow-lg hover:shadow-batman-red/30 signal-light"
                 >
-                  Code <ArrowRight className="ml-1 h-2 w-2" />
-                </Link>
+                  Source <ArrowRight className="ml-1 h-4 w-4" />
+                </a>
               )}
             </div>
           </div>
         ))}
+      </div>
+
+      <div className="text-xs text-batman-red/40 font-mono tracking-wide text-center pt-2">
+        ◆ ◆ ◆ TECH DIVISION ◆ ◆ ◆
       </div>
     </section>
   );
