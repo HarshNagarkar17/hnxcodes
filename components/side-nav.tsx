@@ -10,7 +10,7 @@ const navItems = [
   { label: "GitHub", href: "https://github.com/HarshNagarkar17" },
   {
     label: "CV",
-    href: "https://drive.google.com/file/d/1zz28PrJrvP_h0iuDvzM0SaJ0UaJFhlC0/view?usp=drive_link",
+    href: "https://drive.google.com/file/d/1-mr0kedAisl9nbzcNFg5nhJAjZy3aCOH/view?usp=drive_link",
   },
 ];
 
