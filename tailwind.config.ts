@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
+import { fontFamily } from "tailwindcss/defaultTheme";
 
-export default {
+const config = {
   darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx}",
@@ -19,7 +20,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        mono: ["JetBrains Mono", "monospace"],
+        sans: ["var(--font-sans)", ...fontFamily.sans],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -55,26 +56,6 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        batman: {
-          black: "#0a0a0a",
-          "dark-gray": "#1a1a1a",
-          "medium-gray": "#2a2a2a",
-          "light-gray": "#3a3a3a",
-          red: "#8b1538",
-          "red-dark": "#6b1028",
-          "red-light": "#a01d45",
-          gold: "#d4af37",
-        },
-        neon: {
-          green: "#00ff88", // Keep for some accent elements
-          yellow: "#d4af37", // Batman gold
-          blue: "#4a5568", // Muted blue-gray
-          red: "#8b1538", // Batman red
-        },
-        grid: {
-          line: "rgba(255, 255, 255, 0.02)",
-          dot: "rgba(139, 21, 56, 0.1)",
-        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -83,56 +64,21 @@ export default {
       },
       keyframes: {
         "accordion-down": {
-          from: {
-            height: "0",
-          },
-          to: {
-            height: "var(--radix-accordion-content-height)",
-          },
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
-          from: {
-            height: "var(--radix-accordion-content-height)",
-          },
-          to: {
-            height: "0",
-          },
-        },
-        glow: {
-          "0%, 100%": {
-            boxShadow: "0 0 5px #8b1538, 0 0 10px #8b1538, 0 0 15px #8b1538",
-          },
-          "50%": {
-            boxShadow: "0 0 10px #8b1538, 0 0 20px #8b1538, 0 0 30px #8b1538",
-          },
-        },
-        "fade-in": {
-          "0%": {
-            opacity: "0",
-            transform: "translateY(10px)",
-          },
-          "100%": {
-            opacity: "1",
-            transform: "translateY(0)",
-          },
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        glow: "glow 2s ease-in-out infinite alternate",
-        "fade-in": "fade-in 0.6s ease-out",
-      },
-      backgroundImage: {
-        "grid-pattern": `
-					linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px),
-					linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px)
-				`,
-      },
-      backgroundSize: {
-        grid: "20px 20px",
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 } satisfies Config;
+
+export default config;
