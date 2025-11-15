@@ -60,7 +60,7 @@ export const DATA = {
       location: "Remote",
       title: "Frontend Developer",
       // logoUrl: "/atomic.png",
-      start: "Feb 2023",
+      start: "Feb 2024",
       end: "Present",
       description:
         "Built and shipped web apps with React, Next.js, and Firebase. Contributed to backend APIs and database integrations, delivering scalable, production-ready features.",
