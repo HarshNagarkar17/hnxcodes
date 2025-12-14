@@ -15,7 +15,7 @@ export const DATA = {
   skills: ["React", "Next.js", "Typescript", "Node.js", "Tailwind", "MySQL"],
   navbar: [
     { href: "/", icon: HomeIcon, label: "Home" },
-    // { href: "/blog", icon: NotebookIcon, label: "Blog" },
+    { href: "/blog", icon: NotebookIcon, label: "Blog" },
   ],
   contact: {
     email: "hello@example.com",
