@@ -106,13 +106,13 @@ export const DATA = {
       ],
     },
     {
-      title: "Argent MCP Chat",
+      title: "Sourcebin",
       active: true,
       description:
-        "A web app to chat with AI agents across multiple connected MCP servers, letting you ask questions, debate, and explore ideas in a seamless, ChatGPT-style interface.",
+        "A modern, AI-powered code snippet management platform. Save, organize, and quickly find your code snippets with intelligent search and automatic metadata generation.",
       technologies: [
         "Next.js",
-        "Vercel AI SDK",
+        "OpenAI API",
         "Drizzle",
         "Typescript",
         "TailwindCSS",
@@ -121,7 +121,7 @@ export const DATA = {
       links: [
         {
           type: "Source",
-          href: "https://github.com/HarshNagarkar17/argent-ai",
+          href: "https://github.com/HarshNagarkar17/Sourcebin",
           icon: <Icons.github className="size-3" />,
         },
       ],
