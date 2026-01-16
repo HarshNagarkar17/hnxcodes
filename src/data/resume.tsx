@@ -12,7 +12,15 @@ export const DATA = {
   summary2:
     "curious about code, systems, and design. drawn to things that scale and last.",
   avatarUrl: "/black-hole.png",
-  skills: ["React", "Next.js", "Typescript", "Node.js", "Tailwind", "MySQL"],
+  skills: [
+    "JavaScript",
+    "Typescript",
+    "React",
+    "Next.js",
+    "Node",
+    "Express",
+    "Tailwind",
+  ],
   navbar: [
     { href: "/", icon: HomeIcon, label: "Home" },
     { href: "/blog", icon: NotebookIcon, label: "Blog" },
