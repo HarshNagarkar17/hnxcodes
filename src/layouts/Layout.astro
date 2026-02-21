@@ -2,14 +2,24 @@
 interface Props {
   title: string;
   description?: string;
+  /** Optional: override canonical URL (defaults to current path + site) */
+  canonicalPath?: string;
+  /** Optional: image URL for Open Graph / Twitter (absolute URL) */
+  ogImage?: string;
 }
 
 const {
   title,
   description = "Personal portfolio — projects, writing, and experience.",
+  canonicalPath,
+  ogImage,
 } = Astro.props;
 import Nav from "../components/Nav.astro";
 import { site } from "../data/portfolio";
+
+const path = canonicalPath ?? Astro.url.pathname;
+const canonicalUrl = Astro.site ? new URL(path, Astro.site).href : null;
+const ogImageUrl = ogImage ?? (Astro.site ? new URL("/favicon.svg", Astro.site).href : null);
 ---
 
 <!doctype html>
@@ -18,8 +28,20 @@ import { site } from "../data/portfolio";
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+    <meta property="og:locale" content="en_US" />
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -28,6 +50,17 @@ import { site } from "../data/portfolio";
     />
     <title>{title}</title>
     <meta name="generator" content={Astro.generator} />
+    {/* Person schema for portfolio (E-E-A-T / rich results) */}
+    {Astro.site && (
+      <script type="application/ld+json" set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": site.name,
+        "url": Astro.site,
+        "email": site.email,
+        "description": description,
+      })}></script>
+    )}
   </head>
   <body>
     <Nav />

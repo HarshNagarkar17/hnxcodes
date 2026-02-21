@@ -1,0 +1,7 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Sitemap (update the host to your production domain)
+# Astro sitemap is at /sitemap-index.xml when site is set in astro.config.mjs
+Sitemap: https://harshfr.me/sitemap-index.xml

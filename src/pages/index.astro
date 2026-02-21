@@ -17,8 +17,8 @@ const recentPosts = allPosts
 ---
 
 <Layout
-  title={`${site.name} / ${site.tagline}`}
-  description={site.bioParagraphs[0]}
+  title={`${site.name} | ${site.tagline}`}
+  description={site.bioParagraphs[0].slice(0, 160)}
 >
   <article class="home">
     <header class="hero">

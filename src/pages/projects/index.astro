@@ -1,9 +1,12 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { projects } from "../../data/portfolio";
+import { projects, site } from "../../data/portfolio";
 ---
 
-<Layout title="Projects" description="A selection of projects and side work.">
+<Layout
+  title={`Projects | ${site.name}`}
+  description="Projects and side work by Harsh Nagarkar — web apps, tools, and experiments in TypeScript, React, Next.js, and more."
+>
   <article class="page">
     <header class="page-header">
       <h1 class="page-title">Projects</h1>
