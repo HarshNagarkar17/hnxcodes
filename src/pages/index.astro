@@ -2,12 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import Section from "../components/Section.astro";
 import { getCollection } from "astro:content";
-import {
-  site,
-  skills,
-  experience,
-  projects,
-} from "../data/portfolio";
+import { site, skills, experience, projects } from "../data/portfolio";
 
 const featuredProjects = projects.filter((p) => p.featured);
 const allPosts = await getCollection("blog", ({ data }) => !data.draft);
@@ -17,7 +12,7 @@ const recentPosts = allPosts
 ---
 
 <Layout
-  title={`${site.name} | ${site.tagline}`}
+  title={`${site.name}`}
   description={site.bioParagraphs[0].slice(0, 160)}
 >
   <article class="home">
