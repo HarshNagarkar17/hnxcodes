@@ -1,0 +1,111 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, getEntry, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('blog', ({ data }) => !data.draft);
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+function formatDate(d: Date) {
+  return d.toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric' });
+}
+---
+
+<Layout title={entry.data.title} description={entry.data.description}>
+  <article class="post">
+    <header class="post-header">
+      <a href="/blog" class="post-back">← Blog</a>
+      <time class="post-date" datetime={entry.data.pubDate.toISOString()}>
+        {formatDate(entry.data.pubDate)}
+      </time>
+      <h1 class="post-title">{entry.data.title}</h1>
+    </header>
+    <div class="post-body">
+      <Content />
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .post {
+    animation: fadeIn 0.5s ease-out;
+    max-width: 40rem;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .post-back {
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+    display: inline-block;
+    margin-bottom: var(--space-6);
+  }
+
+  .post-back:hover {
+    color: var(--color-fg);
+  }
+
+  .post-header {
+    margin-bottom: var(--space-10);
+  }
+
+  .post-date {
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+    display: block;
+    margin-bottom: var(--space-2);
+  }
+
+  .post-title {
+    font-family: var(--font-display);
+    font-size: var(--text-3xl);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin: 0;
+    color: var(--color-fg);
+    line-height: 1.25;
+  }
+
+  .post-body {
+    font-size: var(--text-base);
+    line-height: 1.75;
+    color: var(--color-fg);
+  }
+
+  .post-body :global(p) {
+    margin: 0 0 var(--space-6);
+  }
+
+  .post-body :global(code) {
+    font-size: 0.9em;
+    padding: 0.15em 0.4em;
+    background: var(--color-accent-soft);
+    border-radius: 4px;
+  }
+
+  .post-body :global(pre) {
+    overflow-x: auto;
+    padding: var(--space-4);
+    background: var(--color-accent-soft);
+    border-radius: 4px;
+    margin: 0 0 var(--space-6);
+  }
+
+  .post-body :global(pre code) {
+    padding: 0;
+    background: none;
+  }
+</style>

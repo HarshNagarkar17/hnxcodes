@@ -1,0 +1,239 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Section from "../components/Section.astro";
+import { getCollection } from "astro:content";
+import {
+  site,
+  skills,
+  experience,
+  projects,
+} from "../data/portfolio";
+
+const featuredProjects = projects.filter((p) => p.featured);
+const allPosts = await getCollection("blog", ({ data }) => !data.draft);
+const recentPosts = allPosts
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 5);
+---
+
+<Layout
+  title={`${site.name} / ${site.tagline}`}
+  description={site.bioParagraphs[0]}
+>
+  <article class="home">
+    <header class="hero">
+      <!-- <h1 class="hero-tagline">{site.tagline}</h1> -->
+      <div class="hero-bio">
+        {site.bioParagraphs.map((p) => <p>{p}</p>)}
+      </div>
+      <p class="hero-links">
+        {
+          site.links.flatMap((link, i) =>
+            [
+              i > 0 ? " · " : null,
+              <a href={link.href} target="_blank" rel="noopener noreferrer">
+                {link.label}
+              </a>,
+            ].filter(Boolean),
+          )
+        }
+      </p>
+    </header>
+
+    <Section id="experience" title="Experience" titleSize="small">
+      <div class="prose experience-block">
+        {
+          experience.map((job) => (
+            <div class="experience-item">
+              <p class="experience-line">
+                <strong>{job.role}</strong> at {job.company} ({job.period}).{" "}
+                {job.description}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </Section>
+
+    <Section id="skills" title="Skills" titleSize="small">
+      <p class="prose skills-line">
+        {skills.join(", ")}
+      </p>
+    </Section>
+
+    <Section id="work" title="">
+      <p class="prose work-intro">Some of my projects:</p>
+      <ul class="link-list">
+        {
+          featuredProjects.map((project) => (
+            <li>
+              <a href={project.href}>{project.title}</a>
+              {project.description && (
+                <span class="link-desc"> — {project.description}</span>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+      <p class="prose work-outro">
+        <a href="/projects">More in Projects</a>.
+      </p>
+    </Section>
+
+    <Section id="blog" title="Blog posts">
+      <ul class="blog-list">
+        {
+          recentPosts.map((entry) => (
+            <li class="blog-row">
+              <span class="blog-date">
+                {entry.data.pubDate.toLocaleDateString("en-GB", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}
+              </span>
+              <a href={`/blog/${entry.id}`} class="blog-title">
+                {entry.data.title}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="prose">
+        <a href="/blog">All posts</a>.
+      </p>
+    </Section>
+  </article>
+</Layout>
+
+<style>
+  .home {
+    animation: fadeIn 0.5s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .hero {
+    margin-bottom: var(--space-12);
+  }
+
+  .hero-tagline {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: 400;
+    margin: 0 0 var(--space-6);
+    color: var(--color-fg);
+  }
+
+  .hero-bio {
+    margin: 0 0 var(--space-4);
+  }
+
+  .hero-bio p {
+    margin: 0 0 var(--space-4);
+    line-height: 1.7;
+    color: var(--color-fg);
+  }
+
+  .hero-bio p:last-child {
+    margin-bottom: 0;
+  }
+
+  .hero-links {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+  }
+
+  .hero-links a {
+    color: var(--color-accent);
+  }
+
+  .prose {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: 1.7;
+    color: var(--color-fg);
+    margin: 0 0 var(--space-6);
+  }
+
+  .experience-block {
+    margin-bottom: var(--space-8);
+  }
+
+  .experience-item {
+    margin-bottom: var(--space-4);
+  }
+
+  .experience-line {
+    margin: 0;
+  }
+
+  .skills-line {
+    margin-bottom: var(--space-8);
+  }
+
+  .work-intro {
+    margin-bottom: var(--space-2);
+  }
+
+  .work-outro {
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-8);
+  }
+
+  .link-list {
+    list-style: none;
+    margin: 0 0 var(--space-2);
+    padding: 0;
+  }
+
+  .link-list li {
+    margin-bottom: var(--space-1);
+  }
+
+  .link-list a {
+    color: var(--color-accent);
+  }
+
+  .link-desc {
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+  }
+
+  .blog-list {
+    list-style: none;
+    margin: 0 0 var(--space-4);
+    padding: 0;
+  }
+
+  .blog-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+    font-size: var(--text-base);
+  }
+
+  .blog-date {
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+    flex-shrink: 0;
+  }
+
+  .blog-title {
+    color: var(--color-accent);
+  }
+
+  .blog-title:hover {
+    text-decoration: underline;
+  }
+</style>

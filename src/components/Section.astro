@@ -1,0 +1,41 @@
+---
+interface Props {
+  id?: string;
+  title?: string;
+  titleSize?: 'default' | 'small';
+  class?: string;
+}
+
+const { id, title, titleSize = 'default', class: className } = Astro.props;
+---
+
+<section id={id} class={className ? `section ${className}` : 'section'}>
+  {title && (
+    <h2 class={titleSize === 'small' ? 'section-title section-title--small' : 'section-title'}>{title}</h2>
+  )}
+  <slot />
+</section>
+
+<style>
+  .section {
+    margin-bottom: var(--space-12);
+  }
+
+  .section:last-child {
+    margin-bottom: 0;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin: 0 0 var(--space-8);
+    color: var(--color-fg);
+  }
+
+  .section-title--small {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-4);
+  }
+</style>

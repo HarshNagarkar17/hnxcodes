@@ -1,0 +1,164 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = "Personal portfolio — projects, writing, and experience.",
+} = Astro.props;
+import Nav from "../components/Nav.astro";
+import { site } from "../data/portfolio";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title}</title>
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body>
+    <Nav />
+    <main>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <p class="footer-copy">
+          Last updated on {site.lastUpdated}. I can be reached at <a
+            href={`mailto:${site.email}`}>{site.email}</a
+          >.
+        </p>
+        <p class="footer-copy footer-legal">
+          © {new Date().getFullYear()}
+          {site.name}
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --font-display: "Lora", Georgia, serif;
+    --font-body: "Lora", Georgia, serif;
+    --font-ui: "DM Sans", system-ui, sans-serif;
+
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 1.5rem;
+    --text-3xl: 2rem;
+    --text-4xl: 2.5rem;
+
+    /* Spacing */
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-10: 2.5rem;
+    --space-12: 3rem;
+    --space-16: 4rem;
+    --space-20: 5rem;
+    --space-24: 6rem;
+
+    --color-bg: #fff;
+    --color-fg: #111;
+    --color-muted: #555;
+    --color-accent: #111;
+    --color-accent-soft: #f0f0f0;
+    --color-border: #ddd;
+
+    --content-width: 56rem;
+    --radius: 4px;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  html,
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    flex-direction: column;
+  }
+
+  body > header {
+    flex-shrink: 0;
+    width: 100%;
+  }
+
+  main {
+    flex: 1 0 auto;
+    width: 100%;
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: var(--space-8) var(--space-6) var(--space-20);
+  }
+
+  a {
+    color: var(--color-accent);
+    text-decoration: underline;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  .site-footer {
+    flex-shrink: 0;
+    border-top: 1px solid var(--color-border);
+    padding: var(--space-6) var(--space-4);
+  }
+
+  .footer-inner {
+    max-width: var(--content-width);
+    margin: 0 auto;
+  }
+
+  .footer-copy {
+    margin: 0 0 var(--space-1);
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+    font-family: var(--font-body);
+  }
+
+  .footer-copy a {
+    color: var(--color-accent);
+  }
+
+  .footer-legal {
+    margin-top: var(--space-2);
+    margin-bottom: 0;
+  }
+</style>

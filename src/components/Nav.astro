@@ -1,0 +1,82 @@
+---
+import { site } from '../data/portfolio';
+const currentPath = Astro.url.pathname;
+const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/blog', label: 'Blog' },
+];
+---
+
+<header class="nav" role="banner">
+  <a href="/" class="nav-logo">{site.name}</a>
+  <nav class="nav-links" aria-label="Main">
+    {
+      navLinks.map(({ href, label }) => {
+        const isActive = currentPath === href || (href !== '/' && currentPath.startsWith(href));
+        return (
+          <a href={href} class={isActive ? 'nav-link nav-link--active' : 'nav-link'}>
+            {label}
+          </a>
+        );
+      })
+    }
+  </nav>
+</header>
+
+<style>
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: var(--space-5) var(--space-4);
+    font-family: var(--font-ui);
+    box-sizing: border-box;
+  }
+
+  .nav-logo {
+    font-size: var(--text-xl);
+    font-weight: 500;
+    color: var(--color-fg);
+    text-decoration: none;
+  }
+
+  .nav-logo:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: var(--space-6);
+  }
+
+  .nav-link {
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+
+  .nav-link:hover {
+    color: var(--color-fg);
+  }
+
+  .nav-link--active {
+    color: var(--color-fg);
+  }
+
+  @media (max-width: 640px) {
+    .nav {
+      padding: var(--space-3) var(--space-4);
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+
+    .nav-links {
+      gap: var(--space-4);
+    }
+  }
+</style>
