@@ -16,10 +16,12 @@ const {
 } = Astro.props;
 import Nav from "../components/Nav.astro";
 import { site } from "../data/portfolio";
+import Analytics from "@vercel/analytics/astro";
 
 const path = canonicalPath ?? Astro.url.pathname;
 const canonicalUrl = Astro.site ? new URL(path, Astro.site).href : null;
-const ogImageUrl = ogImage ?? (Astro.site ? new URL("/favicon.svg", Astro.site).href : null);
+const ogImageUrl =
+  ogImage ?? (Astro.site ? new URL("/favicon.svg", Astro.site).href : null);
 ---
 
 <!doctype html>
@@ -51,16 +53,21 @@ const ogImageUrl = ogImage ?? (Astro.site ? new URL("/favicon.svg", Astro.site).
     <title>{title}</title>
     <meta name="generator" content={Astro.generator} />
     {/* Person schema for portfolio (E-E-A-T / rich results) */}
-    {Astro.site && (
-      <script type="application/ld+json" set:html={JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": site.name,
-        "url": Astro.site,
-        "email": site.email,
-        "description": description,
-      })}></script>
-    )}
+    {
+      Astro.site && (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            name: site.name,
+            url: Astro.site,
+            email: site.email,
+            description: description,
+          })}
+        />
+      )
+    }
   </head>
   <body>
     <Nav />
@@ -80,6 +87,7 @@ const ogImageUrl = ogImage ?? (Astro.site ? new URL("/favicon.svg", Astro.site).
         </p>
       </div>
     </footer>
+    <Analytics />
   </body>
 </html>
 
