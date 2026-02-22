@@ -52,6 +52,14 @@ export const projects = [
     featured: true,
   },
   {
+    slug: 'gitaura',
+    title: 'Gitaura',
+    description: 'A Python CLI for git commit visualization and repo analysis. Bar charts, file churn, hotspots, branch insights, and a "where do I work most?" directory map.',
+    href: 'https://gitaura.harshfr.me/',
+    tags: ['Python', 'Git', 'CLI'],
+    featured: true,
+  },
+  {
     slug: 'calmwriter',
     title: 'Calmwriter',
     description: 'A minimal note-taking app designed for a calm, distraction-free writing experience, helping you focus on thoughts, ideas, and journaling with a clean, elegant interface.',
