@@ -40,7 +40,24 @@ export const projects = [
     title: 'Argent',
     description: 'A web app where you create a room of AI agents—like a senator, lawyer, engineer, or artist—and let them debate your chosen topic from different perspectives in a dynamic, chat-style interface.',
     href: 'https://github.com/HarshNagarkar17/Argent',
-    tags: ['LangGraph','Next.js', 'TypeScript'],
+    tags: ['LangGraph', 'Next.js', 'TypeScript'],
+    featured: true,
+  },
+  {
+    slug: 'stackfeed',
+    title: 'StackFeed',
+    description: 'A small web app that brings together articles from a few tech RSS feeds so you can skim them in one place, add or remove feeds, and keep your selections saved.',
+    href: 'https://stackfeed.vercel.app/',
+    tags: ['Next.js', 'TypeScript'],
+    featured: true,
+  },
+
+  {
+    slug: 'gitaura',
+    title: 'Gitaura',
+    description: 'A Python CLI for git commit visualization and repo analysis. Bar charts, file churn, hotspots, branch insights, and a "where do I work most?" directory map.',
+    href: 'https://gitaura.harshfr.me/',
+    tags: ['Python', 'Git', 'CLI'],
     featured: true,
   },
   {
@@ -49,14 +66,6 @@ export const projects = [
     description: 'A modern, AI-powered code snippet management platform. Save, organize, and quickly find your code snippets with intelligent search and automatic metadata generation.',
     href: 'https://github.com/HarshNagarkar17/Sourcebin',
     tags: ['OpenAI', 'Next.js', 'TypeScript', 'Drizzle ORM'],
-    featured: true,
-  },
-  {
-    slug: 'gitaura',
-    title: 'Gitaura',
-    description: 'A Python CLI for git commit visualization and repo analysis. Bar charts, file churn, hotspots, branch insights, and a "where do I work most?" directory map.',
-    href: 'https://gitaura.harshfr.me/',
-    tags: ['Python', 'Git', 'CLI'],
     featured: true,
   },
   {
