@@ -15,21 +15,25 @@ import { projects, site } from "../../data/portfolio";
 
     <ul class="project-list">
       {
-        projects.map((project) => (
-          <li class="project-item">
-            <a
-              href={project.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="project-link"
-            >
-              {project.title}
-            </a>
-            {project.description && (
-              <span class="project-desc"> — {project.description}</span>
-            )}
-          </li>
-        ))
+        projects.map((project) => {
+          const isExternal = project.href.startsWith("http");
+
+          return (
+            <li class="project-item">
+              <a
+                href={project.href}
+                target={isExternal ? "_blank" : undefined}
+                rel={isExternal ? "noopener noreferrer" : undefined}
+                class="project-link"
+              >
+                {project.title}
+              </a>
+              {project.description && (
+                <span class="project-desc"> — {project.description}</span>
+              )}
+            </li>
+          );
+        })
       }
     </ul>
   </article>

@@ -1,0 +1,213 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { site } from "../../data/portfolio";
+
+const chromeExtensionUrl =
+  "https://chromewebstore.google.com/detail/piapdblmdldlnancbpfecohflmonejih?utm_source=item-share-cb/";
+---
+
+<Layout
+  title={`TweetBase | ${site.name}`}
+  description="Save and organize tweets with custom folders, all stored locally. TweetBase gives you full control over bookmarks with fast access and clean structure."
+>
+  <article class="project-page">
+    <header class="hero">
+      <p class="kicker">Project</p>
+      <h1>TweetBase - Organize bookmarks without Premium</h1>
+      <p class="intro">
+        Save and organize tweets with custom folders, all stored locally on your
+        device. TweetBase gives you full control over your bookmarks with fast
+        access and clean structure, without paying for basic bookmarking.
+      </p>
+      <p class="hero-actions">
+        <a
+          class="cta-button"
+          href={chromeExtensionUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Get TweetBase Extension <span class="icon" aria-hidden="true"
+            >&#8599;</span
+          >
+        </a>
+      </p>
+    </header>
+
+    <section class="section">
+      <h2>What it does</h2>
+      <ul>
+        <li>
+          Adds a Save action directly on tweets in timeline and detail views
+        </li>
+        <li>
+          Lets you pick a folder instantly or create one inline while saving
+        </li>
+        <li>
+          Flags tweets that include media so visual content stands out quickly
+        </li>
+        <li>
+          Offers a focused manager to browse, move, and remove saved tweets
+        </li>
+        <li>Keeps your saved collection private and under your control</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Core experience</h2>
+      <div class="cards">
+        <article class="card">
+          <h3>Folders, not chaos</h3>
+          <p>
+            Group bookmarks by topic, creator, or intent, then navigate directly
+            to what you need instead of scrolling a single long list.
+          </p>
+        </article>
+        <article class="card">
+          <h3>Fast save flow</h3>
+          <p>
+            Saving happens in context with minimal steps, so organizing tweets
+            feels lightweight instead of interrupting your reading flow.
+          </p>
+        </article>
+        <article class="card">
+          <h3>Clean review space</h3>
+          <p>
+            The manager view gives your saved tweets a structured layout
+            designed for regular cleanup and quick retrieval.
+          </p>
+        </article>
+      </div>
+    </section>
+  </article>
+</Layout>
+
+<style>
+  .project-page {
+    animation: fadeIn 0.45s ease-out;
+    display: grid;
+    gap: var(--space-10);
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero {
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-8);
+  }
+
+  .kicker {
+    margin: 0 0 var(--space-2);
+    font-size: var(--text-sm);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  h1 {
+    margin: 0 0 var(--space-4);
+    font-family: var(--font-display);
+    font-size: var(--text-4xl);
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .intro {
+    margin: 0;
+    max-width: 62ch;
+    font-size: var(--text-lg);
+    line-height: 1.7;
+    color: var(--color-fg);
+  }
+
+  .hero-actions {
+    margin: var(--space-6) 0 0;
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0;
+    border: none;
+    border-bottom: 1px solid var(--color-border);
+    border-radius: 0;
+    background: none;
+    color: var(--color-fg);
+    font-family: var(--font-ui);
+    font-size: var(--text-sm);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    transition:
+      transform 0.2s ease,
+      color 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .cta-button:hover {
+    color: var(--color-accent);
+    border-color: var(--color-fg);
+    transform: translateY(-0.5px);
+    text-decoration: none;
+  }
+
+  .icon {
+    font-size: 0.8em;
+    line-height: 1;
+    transform: translateY(-0.04em);
+    transition: transform 0.2s ease;
+  }
+
+  .cta-button:hover .icon {
+    transform: translate(1px, -1px);
+  }
+
+  .section h2 {
+    margin: 0 0 var(--space-4);
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: 500;
+  }
+
+  .section ul {
+    margin: 0;
+    padding-left: 1.25rem;
+    display: grid;
+    gap: var(--space-2);
+    line-height: 1.7;
+  }
+
+  .cards {
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  .card {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: var(--space-5);
+    background: #fcfcfc;
+  }
+
+  .card h3 {
+    margin: 0 0 var(--space-2);
+    font-size: var(--text-lg);
+    font-weight: 500;
+  }
+
+  .card p {
+    margin: 0;
+    color: var(--color-muted);
+    line-height: 1.65;
+  }
+</style>

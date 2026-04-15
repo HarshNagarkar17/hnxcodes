@@ -51,6 +51,14 @@ export const projects = [
     tags: ['Next.js', 'TypeScript'],
     featured: true,
   },
+  {
+    slug: 'tweetbase',
+    title: 'TweetBase',
+    description: "Save and organize tweets with custom folders, all stored locally. TweetBase gives you full control over bookmarks with fast access and clean structure, without needing X Premium for basic saving.",
+    href: '/projects/tweetbase',
+    tags: ['Browser Extension', 'Productivity'],
+    featured: true,
+  },
 
   {
     slug: 'gitaura',
