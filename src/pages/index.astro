@@ -1,14 +1,17 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Section from "../components/Section.astro";
-import { getCollection } from "astro:content";
+import { sanityClient } from "sanity:client";
 import { site, skills, experience, projects } from "../data/portfolio";
+import {
+  POST_LIST_QUERY,
+  formatPostDate,
+  type PostListItem,
+} from "../lib/sanity-posts";
 
 const featuredProjects = projects.filter((p) => p.featured);
-const allPosts = await getCollection("blog", ({ data }) => !data.draft);
-const recentPosts = allPosts
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 5);
+const allPosts = await sanityClient.fetch<PostListItem[]>(POST_LIST_QUERY);
+const recentPosts = allPosts.slice(0, 5);
 ---
 
 <Layout
@@ -78,20 +81,25 @@ const recentPosts = allPosts
     <Section id="blog" title="Blog posts">
       <ul class="blog-list">
         {
-          recentPosts.map((entry) => (
-            <li class="blog-row">
-              <span class="blog-date">
-                {entry.data.pubDate.toLocaleDateString("en-GB", {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                })}
-              </span>
-              <a href={`/blog/${entry.id}`} class="blog-title">
-                {entry.data.title}
-              </a>
-            </li>
-          ))
+          recentPosts.map((post) => {
+            const when = formatPostDate(post.publishedAt);
+            return (
+              <li class="blog-row">
+                {when ? (
+                  <span class="blog-date">
+                    {when.toLocaleDateString("en-GB", {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </span>
+                ) : null}
+                <a href={`/blog/${post.slug}`} class="blog-title">
+                  {post.title}
+                </a>
+              </li>
+            );
+          })
         }
       </ul>
       <p class="prose">

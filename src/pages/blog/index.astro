@@ -1,10 +1,14 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
+import { sanityClient } from 'sanity:client';
 import { site } from '../../data/portfolio';
+import {
+  POST_LIST_QUERY,
+  formatPostDate,
+  type PostListItem,
+} from '../../lib/sanity-posts';
 
-const allPosts = await getCollection('blog', ({ data }) => !data.draft);
-const blogPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const posts = await sanityClient.fetch<PostListItem[]>(POST_LIST_QUERY);
 
 function formatDate(d: Date) {
   return d.toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric' });
@@ -22,12 +26,15 @@ function formatDate(d: Date) {
     </header>
 
     <ul class="blog-list">
-      {blogPosts.map((entry) => (
-        <li class="blog-row">
-          <span class="blog-date">{formatDate(entry.data.pubDate)}</span>
-          <a href={`/blog/${entry.id}`} class="blog-link">{entry.data.title}</a>
-        </li>
-      ))}
+      {posts.map((post) => {
+        const when = formatPostDate(post.publishedAt);
+        return (
+          <li class="blog-row">
+            {when ? <span class="blog-date">{formatDate(when)}</span> : null}
+            <a href={`/blog/${post.slug}`} class="blog-link">{post.title}</a>
+          </li>
+        );
+      })}
     </ul>
   </article>
 </Layout>

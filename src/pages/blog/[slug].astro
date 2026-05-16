@@ -1,33 +1,87 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { getCollection, render } from 'astro:content';
+import BlogBody from '../../components/BlogBody.tsx';
+import { sanityClient } from 'sanity:client';
 import { site } from '../../data/portfolio';
+import {
+  POST_BY_SLUG_QUERY,
+  POST_SLUGS_QUERY,
+  formatPostDate,
+  type PostDetail,
+} from '../../lib/sanity-posts';
+import { urlForImage } from '../../lib/sanity-image';
 
 export async function getStaticPaths() {
-  const entries = await getCollection('blog', ({ data }) => !data.draft);
-  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+  const rows =
+    await sanityClient.fetch<{ slug: string }[]>(POST_SLUGS_QUERY);
+  return rows.map((row) => ({
+    params: { slug: row.slug },
+  }));
 }
 
-const { entry } = Astro.props;
-const { Content } = await render(entry);
-const metaDescription = entry.data.description ?? `${entry.data.title} — blog post`;
+const { slug } = Astro.params;
+const post = await sanityClient.fetch<PostDetail | null>(POST_BY_SLUG_QUERY, {
+  slug,
+});
+
+if (!post) {
+  return new Response(null, { status: 404 });
+}
+
+const metaDescription =
+  post.excerpt?.trim() || `${post.title} — blog post`;
+
+const publishedAt = formatPostDate(post.publishedAt);
+
+let ogImage: string | undefined;
+let heroImageSrc: string | undefined;
+let heroImageAlt = '';
+if (post.mainImage?.asset) {
+  try {
+    ogImage = urlForImage(post.mainImage).width(1200).height(630).fit('crop').url();
+    heroImageSrc = urlForImage(post.mainImage).width(1200).fit('max').url();
+    heroImageAlt = post.mainImage.alt?.trim() || post.title;
+  } catch {
+    ogImage = undefined;
+    heroImageSrc = undefined;
+  }
+}
 
 function formatDate(d: Date) {
   return d.toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric' });
 }
 ---
 
-<Layout title={`${entry.data.title} | ${site.name}`} description={metaDescription} canonicalPath={`/blog/${entry.id}`}>
+<Layout
+  title={`${post.title} | ${site.name}`}
+  description={metaDescription}
+  canonicalPath={`/blog/${post.slug}`}
+  ogImage={ogImage}
+>
   <article class="post">
     <header class="post-header">
       <a href="/blog" class="post-back">← Blog</a>
-      <time class="post-date" datetime={entry.data.pubDate.toISOString()}>
-        {formatDate(entry.data.pubDate)}
-      </time>
-      <h1 class="post-title">{entry.data.title}</h1>
+      {publishedAt ? (
+        <time class="post-date" datetime={publishedAt.toISOString()}>
+          {formatDate(publishedAt)}
+        </time>
+      ) : null}
+      {heroImageSrc ? (
+        <figure class="post-hero">
+          <img
+            src={heroImageSrc}
+            alt={heroImageAlt}
+            width="1200"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </figure>
+      ) : null}
+      <h1 class="post-title">{post.title}</h1>
     </header>
     <div class="post-body">
-      <Content />
+      <BlogBody value={post.body} />
     </div>
   </article>
 </Layout>
@@ -58,6 +112,19 @@ function formatDate(d: Date) {
 
   .post-back:hover {
     color: var(--color-fg);
+  }
+
+  .post-hero {
+    margin: var(--space-4) 0 var(--space-8);
+    padding: 0;
+    max-width: 100%;
+  }
+
+  .post-hero img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--radius);
   }
 
   .post-header {
@@ -91,6 +158,48 @@ function formatDate(d: Date) {
     margin: 0 0 var(--space-6);
   }
 
+  .post-body :global(h2),
+  .post-body :global(h3),
+  .post-body :global(h4) {
+    font-family: var(--font-display);
+    font-weight: 500;
+    margin: var(--space-10) 0 var(--space-4);
+    line-height: 1.3;
+  }
+
+  .post-body :global(h2) {
+    font-size: var(--text-2xl);
+  }
+
+  .post-body :global(h3) {
+    font-size: var(--text-xl);
+  }
+
+  .post-body :global(h4) {
+    font-size: var(--text-lg);
+  }
+
+  .post-body :global(ul),
+  .post-body :global(ol) {
+    margin: 0 0 var(--space-6);
+    padding-left: var(--space-6);
+  }
+
+  .post-body :global(li) {
+    margin-bottom: var(--space-2);
+  }
+
+  .post-body :global(blockquote) {
+    margin: 0 0 var(--space-6);
+    padding-left: var(--space-4);
+    border-left: 3px solid var(--color-border);
+    color: var(--color-muted);
+  }
+
+  .post-body :global(a) {
+    color: var(--color-accent);
+  }
+
   .post-body :global(code) {
     font-size: 0.9em;
     padding: 0.15em 0.4em;
@@ -109,5 +218,16 @@ function formatDate(d: Date) {
   .post-body :global(pre code) {
     padding: 0;
     background: none;
+  }
+
+  .post-body :global(.blog-figure) {
+    margin: 0 0 var(--space-6);
+  }
+
+  .post-body :global(.blog-figure img) {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--radius);
   }
 </style>

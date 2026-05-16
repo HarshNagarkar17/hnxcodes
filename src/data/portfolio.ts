@@ -1,6 +1,6 @@
 export const site = {
   name: 'Harsh Nagarkar',
-  tagline: 'Developer / Designer',
+  tagline: 'Developer',
   bioParagraphs: [
     `i like working with technology and figuring out how things work. i enjoy building, improving, and solving problems with code.`,
     `these days, i’m focusing more on backend and systems work. i like solving logic and structure problems behind the scenes.`,
