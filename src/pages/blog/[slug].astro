@@ -20,13 +20,19 @@ function formatDate(d: Date) {
 <Layout title={`${entry.data.title} | ${site.name}`} description={metaDescription} canonicalPath={`/blog/${entry.id}`}>
   <article class="post">
     <header class="post-header">
-      <a href="/blog" class="post-back">← Blog</a>
-      <time class="post-date" datetime={entry.data.pubDate.toISOString()}>
+      <a href="/blog" class="post-back reveal">
+        <span class="back-arrow" aria-hidden="true">&larr;</span>
+        Blog
+      </a>
+      <time class="post-date reveal reveal-delay-1" datetime={entry.data.pubDate.toISOString()}>
         {formatDate(entry.data.pubDate)}
       </time>
-      <h1 class="post-title">{entry.data.title}</h1>
+      <h1 class="post-title reveal reveal-delay-2">{entry.data.title}</h1>
+      {entry.data.description && (
+        <p class="post-description reveal reveal-delay-3">{entry.data.description}</p>
+      )}
     </header>
-    <div class="post-body">
+    <div class="post-body reveal reveal-delay-4">
       <Content />
     </div>
   </article>
@@ -34,80 +40,140 @@ function formatDate(d: Date) {
 
 <style>
   .post {
-    animation: fadeIn 0.5s ease-out;
     max-width: 40rem;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(6px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    padding-top: var(--space-16);
   }
 
   .post-back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
     font-size: var(--text-sm);
+    font-weight: 500;
     color: var(--color-muted);
-    display: inline-block;
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-8);
+    text-decoration: none;
+    transition: color var(--transition-fast);
   }
 
   .post-back:hover {
-    color: var(--color-fg);
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+
+  .back-arrow {
+    transition: transform var(--transition);
+  }
+
+  .post-back:hover .back-arrow {
+    transform: translateX(-3px);
   }
 
   .post-header {
-    margin-bottom: var(--space-10);
+    margin-bottom: var(--space-12);
+    padding-bottom: var(--space-10);
+    border-bottom: 1px solid var(--color-border-subtle);
   }
 
   .post-date {
     font-size: var(--text-sm);
-    color: var(--color-muted);
+    color: var(--color-accent);
+    font-weight: 500;
     display: block;
-    margin-bottom: var(--space-2);
+    margin-bottom: var(--space-4);
+    font-variant-numeric: tabular-nums;
   }
 
   .post-title {
     font-family: var(--font-display);
-    font-size: var(--text-3xl);
+    font-size: clamp(1.75rem, 4vw, var(--text-3xl));
     font-weight: 400;
     letter-spacing: -0.02em;
-    margin: 0;
+    margin: 0 0 var(--space-4);
     color: var(--color-fg);
     line-height: 1.25;
   }
 
+  .post-description {
+    font-size: var(--text-lg);
+    color: var(--color-muted);
+    margin: 0;
+    line-height: 1.6;
+  }
+
   .post-body {
+    font-family: var(--font-serif);
     font-size: var(--text-base);
-    line-height: 1.75;
-    color: var(--color-fg);
+    line-height: 1.8;
+    color: var(--color-fg-secondary);
   }
 
   .post-body :global(p) {
     margin: 0 0 var(--space-6);
   }
 
+  .post-body :global(strong) {
+    color: var(--color-fg);
+    font-weight: 600;
+  }
+
   .post-body :global(code) {
     font-size: 0.9em;
     padding: 0.15em 0.4em;
     background: var(--color-accent-soft);
-    border-radius: 4px;
+    color: var(--color-accent);
+    border-radius: var(--radius-sm);
+    font-family: 'SF Mono', 'Fira Code', monospace;
   }
 
   .post-body :global(pre) {
     overflow-x: auto;
-    padding: var(--space-4);
-    background: var(--color-accent-soft);
-    border-radius: 4px;
+    padding: var(--space-5);
+    background: var(--color-fg);
+    color: var(--color-bg);
+    border-radius: var(--radius);
     margin: 0 0 var(--space-6);
+    border: 1px solid var(--color-border);
   }
 
   .post-body :global(pre code) {
     padding: 0;
     background: none;
+    color: inherit;
+  }
+
+  .post-body :global(a) {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .post-body :global(blockquote) {
+    margin: 0 0 var(--space-6);
+    padding: var(--space-4) var(--space-6);
+    border-left: 3px solid var(--color-accent);
+    background: var(--color-accent-glow);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    font-style: italic;
+    color: var(--color-fg-secondary);
+  }
+
+  .post-body :global(ul),
+  .post-body :global(ol) {
+    margin: 0 0 var(--space-6);
+    padding-left: var(--space-6);
+  }
+
+  .post-body :global(li) {
+    margin-bottom: var(--space-2);
+  }
+
+  .post-body :global(h1),
+  .post-body :global(h2),
+  .post-body :global(h3) {
+    font-family: var(--font-display);
+    color: var(--color-fg);
+    margin-top: var(--space-10);
+    margin-bottom: var(--space-4);
   }
 </style>

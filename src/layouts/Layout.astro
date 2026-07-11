@@ -2,9 +2,7 @@
 interface Props {
   title: string;
   description?: string;
-  /** Optional: override canonical URL (defaults to current path + site) */
   canonicalPath?: string;
-  /** Optional: image URL for Open Graph / Twitter (absolute URL) */
   ogImage?: string;
 }
 
@@ -33,26 +31,23 @@ const ogImageUrl =
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
-    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
     {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
     <meta property="og:locale" content="en_US" />
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap"
       rel="stylesheet"
     />
     <title>{title}</title>
     <meta name="generator" content={Astro.generator} />
-    {/* Person schema for portfolio (E-E-A-T / rich results) */}
     {
       Astro.site && (
         <script
@@ -70,32 +65,51 @@ const ogImageUrl =
     }
   </head>
   <body>
+    <div class="noise-overlay" aria-hidden="true"></div>
     <Nav />
     <main>
       <slot />
     </main>
     <footer class="site-footer">
       <div class="footer-inner">
+        <div class="footer-divider"></div>
         <p class="footer-copy">
           Last updated on {site.lastUpdated}. I can be reached at <a
             href={`mailto:${site.email}`}>{site.email}</a
           >.
         </p>
         <p class="footer-copy footer-legal">
-          © {new Date().getFullYear()}
-          {site.name}
+          &copy; {new Date().getFullYear()} {site.name}
         </p>
       </div>
     </footer>
     <Analytics />
+    <script>
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+      );
+      document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+
+      document.addEventListener("DOMContentLoaded", () => {
+        document.body.classList.add("loaded");
+      });
+    </script>
   </body>
 </html>
 
 <style is:global>
   :root {
     --font-display: "Lora", Georgia, serif;
-    --font-body: "Lora", Georgia, serif;
-    --font-ui: "DM Sans", system-ui, sans-serif;
+    --font-body: "Inter", system-ui, sans-serif;
+    --font-serif: "Lora", Georgia, serif;
 
     --text-xs: 0.75rem;
     --text-sm: 0.875rem;
@@ -105,8 +119,9 @@ const ogImageUrl =
     --text-2xl: 1.5rem;
     --text-3xl: 2rem;
     --text-4xl: 2.5rem;
+    --text-5xl: 3.5rem;
 
-    /* Spacing */
+    --space-1: 0.25rem;
     --space-2: 0.5rem;
     --space-3: 0.75rem;
     --space-4: 1rem;
@@ -118,16 +133,38 @@ const ogImageUrl =
     --space-16: 4rem;
     --space-20: 5rem;
     --space-24: 6rem;
+    --space-32: 8rem;
 
-    --color-bg: #fff;
-    --color-fg: #111;
-    --color-muted: #555;
-    --color-accent: #111;
-    --color-accent-soft: #f0f0f0;
-    --color-border: #ddd;
+    --color-bg: #fafaf9;
+    --color-bg-elevated: #ffffff;
+    --color-fg: #1a1a1a;
+    --color-fg-secondary: #44403c;
+    --color-muted: #78716c;
+    --color-accent: #b45309;
+    --color-accent-hover: #92400e;
+    --color-accent-soft: #fef3c7;
+    --color-accent-glow: rgba(180, 83, 9, 0.08);
+    --color-border: #e7e5e4;
+    --color-border-subtle: #f0efed;
+    --color-surface: #ffffff;
+    --color-surface-hover: #fafaf9;
 
-    --content-width: 56rem;
-    --radius: 4px;
+    --content-width: 54rem;
+    --radius-sm: 6px;
+    --radius: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.06), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+    --shadow-glow: 0 0 20px var(--color-accent-glow);
+
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   *,
@@ -148,10 +185,23 @@ const ogImageUrl =
     color: var(--color-fg);
     font-family: var(--font-body);
     font-size: var(--text-base);
-    line-height: 1.6;
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     display: flex;
     flex-direction: column;
+    position: relative;
+  }
+
+  .noise-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 200px 200px;
   }
 
   body > header {
@@ -164,27 +214,41 @@ const ogImageUrl =
     width: 100%;
     max-width: var(--content-width);
     margin: 0 auto;
-    padding: var(--space-8) var(--space-6) var(--space-20);
+    padding: var(--space-10) var(--space-6) var(--space-24);
   }
 
   a {
     color: var(--color-accent);
-    text-decoration: underline;
+    text-decoration: none;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    transition: color var(--transition-fast), text-decoration-color var(--transition-fast);
   }
 
   a:hover {
     text-decoration: underline;
+    color: var(--color-accent-hover);
+  }
+
+  ::selection {
+    background: var(--color-accent-soft);
+    color: var(--color-fg);
   }
 
   .site-footer {
     flex-shrink: 0;
-    border-top: 1px solid var(--color-border);
-    padding: var(--space-6) var(--space-4);
+    padding: var(--space-8) var(--space-6) var(--space-10);
   }
 
   .footer-inner {
     max-width: var(--content-width);
     margin: 0 auto;
+  }
+
+  .footer-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-border), transparent);
+    margin-bottom: var(--space-8);
   }
 
   .footer-copy {
@@ -196,10 +260,77 @@ const ogImageUrl =
 
   .footer-copy a {
     color: var(--color-accent);
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    transition: text-decoration-color var(--transition);
+  }
+
+  .footer-copy a:hover {
+    text-decoration-color: var(--color-accent);
   }
 
   .footer-legal {
-    margin-top: var(--space-2);
+    margin-top: var(--space-3);
     margin-bottom: 0;
   }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-delay-1 { transition-delay: 100ms; }
+  .reveal-delay-2 { transition-delay: 200ms; }
+  .reveal-delay-3 { transition-delay: 300ms; }
+  .reveal-delay-4 { transition-delay: 400ms; }
 </style>

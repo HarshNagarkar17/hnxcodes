@@ -9,20 +9,34 @@ interface Props {
 const { id, title, titleSize = 'default', class: className } = Astro.props;
 ---
 
-<section id={id} class={className ? `section ${className}` : 'section'}>
+<section id={id} class:list={['section', className]}>
   {title && (
-    <h2 class={titleSize === 'small' ? 'section-title section-title--small' : 'section-title'}>{title}</h2>
+    <div class:list={['section-header', { 'section-header--small': titleSize === 'small' }]}>
+      <h2 class="section-title">{title}</h2>
+      <span class="section-line" aria-hidden="true"></span>
+    </div>
   )}
   <slot />
 </section>
 
 <style>
   .section {
-    margin-bottom: var(--space-12);
+    margin-bottom: var(--space-16);
   }
 
   .section:last-child {
     margin-bottom: 0;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+  }
+
+  .section-header--small {
+    margin-bottom: var(--space-5);
   }
 
   .section-title {
@@ -30,12 +44,19 @@ const { id, title, titleSize = 'default', class: className } = Astro.props;
     font-size: var(--text-2xl);
     font-weight: 400;
     letter-spacing: -0.02em;
-    margin: 0 0 var(--space-8);
+    margin: 0;
     color: var(--color-fg);
+    white-space: nowrap;
   }
 
-  .section-title--small {
+  .section-header--small .section-title {
     font-size: var(--text-lg);
-    margin-bottom: var(--space-4);
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--color-border), transparent);
+    min-width: 40px;
   }
 </style>

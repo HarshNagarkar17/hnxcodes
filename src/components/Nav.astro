@@ -8,23 +8,39 @@ const navLinks = [
 ];
 ---
 
-<header class="nav" role="banner">
-  <a href="/" class="nav-logo">{site.name}</a>
-  <nav class="nav-links" aria-label="Main">
-    {
-      navLinks.map(({ href, label }) => {
-        const isActive = currentPath === href || (href !== '/' && currentPath.startsWith(href));
-        return (
-          <a href={href} class={isActive ? 'nav-link nav-link--active' : 'nav-link'}>
-            {label}
-          </a>
-        );
-      })
-    }
-  </nav>
+<header class="nav-wrapper">
+  <header class="nav" role="banner">
+    <a href="/" class="nav-logo">
+      <span class="logo-dot" aria-hidden="true"></span>
+      {site.name}
+    </a>
+    <nav class="nav-links" aria-label="Main">
+      {
+        navLinks.map(({ href, label }) => {
+          const isActive = currentPath === href || (href !== '/' && currentPath.startsWith(href));
+          return (
+            <a href={href} class:list={['nav-link', { 'nav-link--active': isActive }]}>
+              {label}
+              {isActive && <span class="nav-indicator" aria-hidden="true"></span>}
+            </a>
+          );
+        })
+      }
+    </nav>
+  </header>
 </header>
 
 <style>
+  .nav-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background: rgba(250, 250, 249, 0.85);
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
   .nav {
     display: flex;
     align-items: center;
@@ -32,51 +48,98 @@ const navLinks = [
     width: 100%;
     max-width: var(--content-width);
     margin: 0 auto;
-    padding: var(--space-5) var(--space-4);
-    font-family: var(--font-ui);
+    padding: var(--space-4) var(--space-6);
     box-sizing: border-box;
   }
 
   .nav-logo {
-    font-size: var(--text-xl);
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
     font-weight: 500;
     color: var(--color-fg);
     text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    letter-spacing: -0.01em;
+    transition: opacity var(--transition-fast);
   }
 
   .nav-logo:hover {
-    color: var(--color-accent);
-    text-decoration: underline;
+    opacity: 0.7;
+    text-decoration: none;
+    color: var(--color-fg);
+  }
+
+  .logo-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--color-accent);
+    border-radius: 50%;
+    display: inline-block;
+    transition: transform var(--transition-spring);
+  }
+
+  .nav-logo:hover .logo-dot {
+    transform: scale(1.3);
   }
 
   .nav-links {
     display: flex;
-    gap: var(--space-6);
+    align-items: center;
+    gap: var(--space-1);
   }
 
   .nav-link {
     font-size: var(--text-sm);
+    font-weight: 500;
     color: var(--color-muted);
     text-decoration: none;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-sm);
+    position: relative;
+    transition: color var(--transition-fast), background var(--transition-fast);
   }
 
   .nav-link:hover {
     color: var(--color-fg);
+    background: var(--color-accent-glow);
+    text-decoration: none;
   }
 
   .nav-link--active {
     color: var(--color-fg);
   }
 
+  .nav-indicator {
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background: var(--color-accent);
+    border-radius: 50%;
+    animation: dotPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes dotPulse {
+    0%, 100% { opacity: 1; transform: translateX(-50%) scale(1); }
+    50% { opacity: 0.5; transform: translateX(-50%) scale(0.7); }
+  }
+
   @media (max-width: 640px) {
     .nav {
       padding: var(--space-3) var(--space-4);
-      flex-wrap: wrap;
-      gap: var(--space-3);
     }
 
     .nav-links {
-      gap: var(--space-4);
+      gap: 0;
+    }
+
+    .nav-link {
+      padding: var(--space-2);
+      font-size: var(--text-xs);
     }
   }
 </style>
