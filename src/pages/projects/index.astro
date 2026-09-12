@@ -15,30 +15,25 @@ import { projects, site } from "../../data/portfolio";
 
     <div class="projects-grid">
       {
-        projects.map((project, i) => (
-          <a
-            href={project.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            class:list={[
-              "project-card reveal",
-              `reveal-delay-${Math.min(i + 1, 4)}`,
-            ]}
-          >
-            <div class="project-card-top">
-              <h2 class="project-name">{project.title}</h2>
-              <span class="project-arrow" aria-hidden="true">
-                &nearr;
-              </span>
-            </div>
-            <p class="project-desc">{project.description}</p>
-            <div class="project-tags">
-              {project.tags.map((tag) => (
-                <span class="project-tag">{tag}</span>
-              ))}
-            </div>
-          </a>
-        ))
+        projects.map((project) => {
+          const isExternal = project.href.startsWith("http");
+
+          return (
+            <li class="project-item">
+              <a
+                href={project.href}
+                target={isExternal ? "_blank" : undefined}
+                rel={isExternal ? "noopener noreferrer" : undefined}
+                class="project-link"
+              >
+                {project.title}
+              </a>
+              {project.description && (
+                <span class="project-desc"> — {project.description}</span>
+              )}
+            </li>
+          );
+        })
       }
     </div>
   </article>

@@ -1,20 +1,20 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Section from "../components/Section.astro";
-import { getCollection } from "astro:content";
+import { sanityClient } from "sanity:client";
 import { site, skills, experience, projects } from "../data/portfolio";
+import {
+  POST_LIST_QUERY,
+  formatPostDate,
+  type PostListItem,
+} from "../lib/sanity-posts";
 
 const featuredProjects = projects.filter((p) => p.featured);
-const allPosts = await getCollection("blog", ({ data }) => !data.draft);
-const recentPosts = allPosts
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 5);
+const allPosts = await sanityClient.fetch<PostListItem[]>(POST_LIST_QUERY);
+const recentPosts = allPosts.slice(0, 5);
 ---
 
-<Layout
-  title={site.name}
-  description={site.bioParagraphs[0].slice(0, 160)}
->
+<Layout title={site.name} description={site.bioParagraphs[0].slice(0, 160)}>
   <article class="home">
     <header class="hero">
       <div class="hero-greeting reveal">Hello, I'm</div>
@@ -33,7 +33,9 @@ const recentPosts = allPosts
               class="hero-link"
             >
               {link.label}
-              <span class="link-arrow" aria-hidden="true">&rarr;</span>
+              <span class="link-arrow" aria-hidden="true">
+                &rarr;
+              </span>
             </a>
           ))
         }
@@ -72,11 +74,13 @@ const recentPosts = allPosts
               href={project.href}
               target="_blank"
               rel="noopener noreferrer"
-              class:list={['project-card reveal', `reveal-delay-${i + 1}`]}
+              class:list={["project-card reveal", `reveal-delay-${i + 1}`]}
             >
               <div class="project-card-header">
                 <h3 class="project-name">{project.title}</h3>
-                <span class="project-arrow" aria-hidden="true">&nearr;</span>
+                <span class="project-arrow" aria-hidden="true">
+                  &nearr;
+                </span>
               </div>
               <p class="project-desc">{project.description}</p>
               <div class="project-tags">
@@ -96,21 +100,25 @@ const recentPosts = allPosts
     <Section id="blog" title="Recent Writing">
       <ul class="blog-list">
         {
-          recentPosts.map((entry, i) => (
-            <li class:list={['blog-row reveal', `reveal-delay-${Math.min(i + 1, 4)}`]}>
-              <span class="blog-date">
-                {entry.data.pubDate.toLocaleDateString("en-GB", {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                })}
-              </span>
-              <a href={`/blog/${entry.id}`} class="blog-title">
-                {entry.data.title}
-                <span class="blog-hover-line" aria-hidden="true" />
-              </a>
-            </li>
-          ))
+          recentPosts.map((post) => {
+            const when = formatPostDate(post.publishedAt);
+            return (
+              <li class="blog-row">
+                {when ? (
+                  <span class="blog-date">
+                    {when.toLocaleDateString("en-GB", {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </span>
+                ) : null}
+                <a href={`/blog/${post.slug}`} class="blog-title">
+                  {post.title}
+                </a>
+              </li>
+            );
+          })
         }
       </ul>
       <p class="work-more reveal">
@@ -382,7 +390,7 @@ const recentPosts = allPosts
   }
 
   .blog-title::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -2px;
     left: 0;
