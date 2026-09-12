@@ -1,13 +1,13 @@
 export const site = {
   name: 'Harsh Nagarkar',
-  tagline: 'Developer / Designer',
+  tagline: 'Software Developer',
   bioParagraphs: [
-    `I like opening things that aren't broken. Code, systems, sometimes ideas. Mostly to see what's actually holding them together.`,
-    `Lately I've been spending more time on the backend. Less buttons, more structure. Less noise, more logic.`,
-    `I read a lot about generative AI. Not just how to use it, but how it thinks. Or pretends to. I'm interested in where it's going, and what it quietly changes while we're busy arguing about it.`,
+    `I working with technology and figuring out how things work. I enjoy building, improving, and solving problems with code.`,
+    `These days, i’m focusing more on backend and systems work. I like solving logic and structure problems behind the scenes.`,
+    `Outside of coding, i spend a lot of time reading, learning new things, and exploring ideas that help me think better and build better.`,
   ],
   email: 'harshvn871@gmail.com',
-  lastUpdated: '21st February 2026',
+  lastUpdated: '12th September 2026',
   links: [
     { label: 'GitHub', href: 'https://github.com/HarshNagarkar17' },
     { label: 'LinkedIn', href: 'https://linkedin.com/in/harsh-nagarkar' },

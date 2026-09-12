@@ -191,24 +191,15 @@ const recentPosts = allPosts
     border: 1px solid var(--color-border);
     border-radius: 100px;
     text-decoration: none;
-    transition: all var(--transition);
   }
 
   .hero-link:hover {
-    color: var(--color-accent);
-    border-color: var(--color-accent);
-    background: var(--color-accent-glow);
     text-decoration: none;
-    transform: translateY(-1px);
+    color: var(--color-muted);
   }
 
   .link-arrow {
-    transition: transform var(--transition);
     font-size: 0.85em;
-  }
-
-  .hero-link:hover .link-arrow {
-    transform: translateX(3px);
   }
 
   .experience-list {
@@ -222,13 +213,6 @@ const recentPosts = allPosts
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
-    transition: all var(--transition);
-  }
-
-  .experience-card:hover {
-    border-color: var(--color-accent);
-    box-shadow: var(--shadow-glow);
-    transform: translateY(-2px);
   }
 
   .experience-meta {
@@ -282,14 +266,6 @@ const recentPosts = allPosts
     font-size: var(--text-sm);
     font-weight: 500;
     color: var(--color-fg-secondary);
-    transition: all var(--transition);
-  }
-
-  .skill-pill:hover {
-    border-color: var(--color-accent);
-    color: var(--color-accent);
-    background: var(--color-accent-glow);
-    transform: translateY(-2px);
   }
 
   .projects-grid {
@@ -305,34 +281,13 @@ const recentPosts = allPosts
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     text-decoration: none;
-    transition: all var(--transition);
     position: relative;
     overflow: hidden;
   }
 
-  .project-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-hover));
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform var(--transition);
-  }
-
   .project-card:hover {
-    border-color: var(--color-accent);
-    box-shadow: var(--shadow-lg);
-    transform: translateY(-3px);
     text-decoration: none;
     color: inherit;
-  }
-
-  .project-card:hover::before {
-    transform: scaleX(1);
   }
 
   .project-card-header {

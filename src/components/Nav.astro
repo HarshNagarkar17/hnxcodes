@@ -1,27 +1,31 @@
 ---
-import { site } from '../data/portfolio';
+import { site } from "../data/portfolio";
 const currentPath = Astro.url.pathname;
 const navLinks = [
-  { href: '/', label: 'Home' },
-  { href: '/projects', label: 'Projects' },
-  { href: '/blog', label: 'Blog' },
+  { href: "/", label: "Home" },
+  { href: "/projects", label: "Projects" },
+  { href: "/blog", label: "Blog" },
 ];
 ---
 
 <header class="nav-wrapper">
   <header class="nav" role="banner">
     <a href="/" class="nav-logo">
-      <span class="logo-dot" aria-hidden="true"></span>
       {site.name}
     </a>
     <nav class="nav-links" aria-label="Main">
       {
         navLinks.map(({ href, label }) => {
-          const isActive = currentPath === href || (href !== '/' && currentPath.startsWith(href));
+          const isActive =
+            currentPath === href ||
+            (href !== "/" && currentPath.startsWith(href));
           return (
-            <a href={href} class:list={['nav-link', { 'nav-link--active': isActive }]}>
+            <a
+              href={href}
+              class:list={["nav-link", { "nav-link--active": isActive }]}
+            >
               {label}
-              {isActive && <span class="nav-indicator" aria-hidden="true"></span>}
+              {isActive && <span class="nav-indicator" aria-hidden="true" />}
             </a>
           );
         })
@@ -98,7 +102,9 @@ const navLinks = [
     padding: var(--space-2) var(--space-3);
     border-radius: var(--radius-sm);
     position: relative;
-    transition: color var(--transition-fast), background var(--transition-fast);
+    transition:
+      color var(--transition-fast),
+      background var(--transition-fast);
   }
 
   .nav-link:hover {
@@ -124,8 +130,15 @@ const navLinks = [
   }
 
   @keyframes dotPulse {
-    0%, 100% { opacity: 1; transform: translateX(-50%) scale(1); }
-    50% { opacity: 0.5; transform: translateX(-50%) scale(0.7); }
+    0%,
+    100% {
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+    }
+    50% {
+      opacity: 0.5;
+      transform: translateX(-50%) scale(0.7);
+    }
   }
 
   @media (max-width: 640px) {

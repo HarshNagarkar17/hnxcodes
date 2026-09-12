@@ -1,13 +1,19 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
-import { site } from '../../data/portfolio';
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import { site } from "../../data/portfolio";
 
-const allPosts = await getCollection('blog', ({ data }) => !data.draft);
-const blogPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const allPosts = await getCollection("blog", ({ data }) => !data.draft);
+const blogPosts = allPosts.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
 
 function formatDate(d: Date) {
-  return d.toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric' });
+  return d.toLocaleDateString("en-GB", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
 }
 ---
 
@@ -17,24 +23,32 @@ function formatDate(d: Date) {
 >
   <article class="page">
     <header class="page-header">
-      <p class="page-label reveal">Writing</p>
       <h1 class="page-title reveal reveal-delay-1">Blog</h1>
-      <p class="page-desc reveal reveal-delay-2">Thoughts, updates, and things I'm thinking about.</p>
+      <p class="page-desc reveal reveal-delay-2">
+        Thoughts, updates, and things I'm thinking about.
+      </p>
     </header>
 
     <ul class="blog-list">
-      {blogPosts.map((entry, i) => (
-        <li class:list={['blog-row reveal', `reveal-delay-${Math.min(i + 1, 4)}`]}>
-          <span class="blog-date">{formatDate(entry.data.pubDate)}</span>
-          <a href={`/blog/${entry.id}`} class="blog-link">
-            {entry.data.title}
-            {entry.data.description && (
-              <span class="blog-excerpt">{entry.data.description}</span>
-            )}
-            <span class="blog-hover-line" aria-hidden="true" />
-          </a>
-        </li>
-      ))}
+      {
+        blogPosts.map((entry, i) => (
+          <li
+            class:list={[
+              "blog-row reveal",
+              `reveal-delay-${Math.min(i + 1, 4)}`,
+            ]}
+          >
+            <span class="blog-date">{formatDate(entry.data.pubDate)}</span>
+            <a href={`/blog/${entry.id}`} class="blog-link">
+              {entry.data.title}
+              {entry.data.description && (
+                <span class="blog-excerpt">{entry.data.description}</span>
+              )}
+              <span class="blog-hover-line" aria-hidden="true" />
+            </a>
+          </li>
+        ))
+      }
     </ul>
   </article>
 </Layout>
